@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+
+<meta name="maintainer" content="askemailer@gmail.com"/>
+  
+  <!-- Message was not succesfully recorded, play not_recorded audio -->
+  <form id="NotReceived">
+        <block>
+            <prompt>
+                <audio src="/static/audio/not_recorded_{{ language_code }}.wav"></audio>
+            </prompt>
+        </block>
+    </form>
+</vxml>

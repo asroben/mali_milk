@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+
+<meta name="maintainer" content="askemailer@gmail.com"/>
+  
+  <!-- Message sucessfully saved, play the audio to acknowledge that to user -->
+  <form id="Received">
+        <block>
+            <prompt>
+                  <audio src="/static/audio/main_message_thanks_{{ language_code }}.wav"></audio>
+            </prompt>
+        </block>
+    </form>
+</vxml>
+
+

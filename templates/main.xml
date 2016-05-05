@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+
+<meta name="maintainer" content="askemailer@gmail.com"/>
+
+
+<link next="#MainMenu">
+
+  <!-- The XML grammar for the main menu. -->
+  <grammar xml:lang="en-US" root ="LINKGRAM" mode="dtmf">
+     <rule id="LINKGRAM" scope="public">
+      <one-of>
+       <item> 9 </item>
+      </one-of>
+     
+     </rule>
+    </grammar> 
+</link>
+
+    <!-- Main Menu -->
+
+  <form id="MainMenu">
+
+    <!-- Language Selection Field -->
+    <field name="Language">
+        
+        <prompt bargein="true">
+            <audio src="/static/audio/main_welcome_en.wav"/>
+            <audio src="/static/audio/main_welcome_fr.wav"/>
+        </prompt>
+             
+        <prompt bargein="true">
+          <audio src="/static/audio/main_choose_language_en.wav"/>
+          <audio src="/static/audio/main_choose_language_fr.wav"/>
+        </prompt>
+        
+        <prompt bargein="true">
+          <audio src="/static/audio/main_back_to_main_menu_en.wav"/>
+          <audio src="/static/audio/main_back_to_main_menu_fr.wav"/>
+        </prompt>
+
+      <!-- Grammar for available responses for either "English" or "French".-->
+      <grammar xml:lang="en-US" root = "LANGUAGE" mode="dtmf">
+        <rule id="LANGUAGE" scope="public">
+         <one-of>
+      
+         <!-- If the user says any of the following choices, then the grammar assigns "english" to the Language variable.-->
+         <item>
+          <one-of>
+            <item> 1 </item>
+          </one-of>
+          <tag>out.Language ="english";</tag>
+         </item>
+       
+         <!-- If the user says any of the following choices, then the grammar assigns "french" to the Language variable. -->
+         <item>
+          <one-of>
+            <item> 2 </item>
+          </one-of>
+          <tag>out.Language ="french";</tag>
+         </item>
+      
+         </one-of>        
+        </rule>
+      </grammar>
+        
+        <!-- Handle cases where there is no input received -->
+      <noinput>
+        <prompt bargein="true">
+          <audio src="/static/audio/not_heard_en.wav"/>
+          <audio src="/static/audio/not_heard_fr.wav"/>
+        </prompt>
+       <reprompt/>
+      </noinput>
+
+        <!-- Handle cases where there is no match -->
+      <nomatch>
+        <prompt bargein="true">
+          <audio src="/static/audio/not_recognized_en.wav"/>
+          <audio src="/static/audio/not_recognized_fr.wav"/>
+        </prompt>
+       <reprompt/>
+      </nomatch>
+
+    </field>
+    
+    <!-- Logic for deciding where to go next depending on the input -->
+    <filled>
+        <if cond="Language == 'english'">
+            <goto next="voice/english"/>
+        <elseif cond="Language == 'french'"/>
+            <goto next="voice/french"/>
+        </if>
+    </filled>
+  </form>
+  
+    <!-- End Language Selection Menu -->
+    
+</vxml>
+
+

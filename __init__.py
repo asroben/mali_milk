@@ -43,7 +43,7 @@ def index():
                 i.remove()
                 removed += 1
     print(removed)
-    return render_template("main.xml")
+    return render_template("main.vxml")
 
 @app.route('/voice/<language>')
 def get_messages(language):
@@ -54,7 +54,7 @@ def get_messages(language):
     coop_messages = [f for f in language_files if "coop" in f]
     message_files_number = len(language_files)
     coop_messages_number = len(coop_messages)
-    return render_template("options_menu.xml", message_files_number = message_files_number,
+    return render_template("options_menu.vxml", message_files_number = message_files_number,
                         message_files = language_files, language = language_send, 
                         language_code = language_code, coop_messages = coop_messages,
                         coop_messages_number = coop_messages_number)
@@ -69,8 +69,8 @@ def upload_file(language):
         if file and allowed_file(file.filename):
             filename = str(language)+"_"+datetime.datetime.now().strftime("%Y%m%d-%H%M")+".wav"
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return render_template('recording_received.xml', language_code = language_code)
-    return render_template('not_recorded.xml', language_code = language_code)
+            return render_template('recording_received.vxml', language_code = language_code)
+    return render_template('not_recorded.vxml', language_code = language_code)
 
 # Receive Coop Recordings and save them. 
 @app.route('/voice/recording/coop/<language>', methods=['GET', 'POST'])
@@ -82,8 +82,8 @@ def upload_coop_file(language):
         if file and allowed_file(file.filename):
             filename = str(language)+"_"+"coop_"+datetime.datetime.now().strftime("%Y%m%d-%H%M")+".wav"
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return render_template('recording_received.xml', language_code = language_code)
-    return render_template('not_recorded.xml', language_code = language_code)
+            return render_template('recording_received.vxml', language_code = language_code)
+    return render_template('not_recorded.vxml', language_code = language_code)
 
 
 

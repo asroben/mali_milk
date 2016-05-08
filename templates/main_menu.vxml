@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+
+<meta name="maintainer" content="askemailer@gmail.com"/>
+
+
+
+<menu>
+  <prompt>
+    Say one of: <enumerate/>
+  </prompt>
+  <choice next="voice/english">
+    <audio src="/static/audio/main_choose_language_en.wav"/>
+  </choice>
+  <choice next="/voice/french">
+     <audio src="/static/audio/main_choose_language_fr.wav"/>
+  </choice>
+  <noinput>Please say one of <enumerate/></noinput>
+</menu>
+
+
+
+  
+    <!-- End Language Selection Menu -->
+    
+</vxml>
+
+

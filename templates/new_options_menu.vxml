@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+
+<meta name="maintainer" content="askemailer@gmail.com"/>
+
+<!-- New Structure -->
+
+<menu id="Options" dtmf="true">
+
+  <prompt bargein="true">
+                <!-- Use the language code to play the appropriate language file -->
+                <audio src="/static/audio/main_choose_buy_sell_info_{{ language_code }}.wav"/>
+  </prompt>
+
+  <choice dtmf="1" next="#Buy"> </choice>
+  <choice dtmf="2" next="#Sell"> </choice>
+  <choice dtmf="3" next="#CoopOptions"> </choice>
+  <choice dtmf="9" next="#Options"> </choice>
+
+</menu>
+
+
+<!-- Buy Section -->
+  
+<form id="Buy">
+  <block>
+     <prompt>
+         <audio src="/static/audio/buy_listen_to_farmer_messages_{{ language_code }}.wav"/>
+     </prompt>
+      
+      <prompt>
+          
+        {% if message_files_number > 0 %}
+          
+            <!--Loops through each of the saved messages and plays them in turn -->
+            {% for i in range(message_files_number) %}
+            
+                <audio src="/static/messages/{{ message_files[i] }}"> {{ i+1 }})</audio>
+        
+            {% endfor %}
+            
+        {% else %}
+        
+            <audio src="/static/audio/no_messages_{{ language_code }}.wav"/>
+        
+        {% endif %}
+      
+      </prompt>
+
+      <goto next="#Buy_Options"/>
+    </block>
+</form>
+
+<!-- Post Hearing Message Options -->
+
+<menu id="Buy_Options" dtmf="true">
+
+  <prompt bargein="true">
+                <!-- Use the language code to play the appropriate language file -->
+                <audio src="/static/audio/buy_hear_messages_again_{{ language_code }}.wav"/>
+  </prompt>
+
+  <choice dtmf="1" next="#Buy"> </choice>
+  <choice dtmf="9" next="#Options"> </choice>
+
+</menu>
+  
+<!-- Sell Section -->
+
+<form id="Sell">
+      
+        <block>
+            <prompt>
+                <audio src="/static/audio/sell_record_message_instructions_{{ language_code }}.wav"></audio>
+            </prompt>
+        </block>
+        
+            <record name="message" beep="true" maxtime="30s"></record>
+        
+        <block>
+            <prompt>
+                <audio src="/static/audio/hear_own_recording_{{ language_code }}.wav"/>
+                <value expr="message"/>
+                <audio src="/static/audio/sell_record_or_keep_message_{{ language_code }}.wav"/>
+            </prompt>
+        </block>
+
+      <submit next="/voice/recording/{{ language }}" namelist="message" enctype="multipart/form-data" method="post"/>
+
+</form> 
+
+
+<!-- Co-Operative Main Menu -->
+
+<menu id="CoopOptions" dtmf="true">
+
+  <prompt bargein="true">
+                <!-- Use the language code to play the appropriate language file -->
+                <audio src="/static/audio/coop_options_{{ language_code }}.wav"/>
+  </prompt>
+
+  <choice dtmf="1" next="#CoopInfo"> </choice>
+  <choice dtmf="2" next="#CoopHear"> </choice>
+  <choice dtmf="3" next="#CoopRecord"> </choice>
+  <choice dtmf="9" next="#Options"> </choice>
+
+</menu>
+
+
+<!-- End Co-Operative Main Menu -->
+
+
+<!-- Co-op information section -->
+
+<!-- Coop Info -->
+<form id="CoopInfo">
+  <block>
+      <prompt>
+                <audio src="/static/audio/coop_info_{{ language_code }}.wav"/>
+      </prompt>
+    </block> 
+    <goto next="#CoopInfoOptions"/>
+</form>     
+
+
+
+<!-- Coop Info Options Menu -->
+<menu id="CoopInfoOptions" dtmf="true">
+
+  <prompt bargein="true">
+                <!-- Use the language code to play the appropriate language file -->
+                <audio src="/static/audio/coop_after_info_{{ language_code }}.wav"/>
+  </prompt>
+
+  <choice dtmf="1" next="#CoopInfo"> </choice>
+  <choice dtmf="2" next="#CoopHear"> </choice>
+  <choice dtmf="3" next="#CoopRecord"> </choice>
+  <choice dtmf="9" next="#Options"> </choice>
+
+</menu>
+      
+
+<!-- End Cooperative Information Section -->
+
+
+ <!-- Coop Hear Messages section -->
+
+<form id="CoopHear">
+      
+     <block>
+      <prompt>
+                <audio src="/static/audio/coop_hear_messages_{{ language_code }}.wav"></audio>
+      </prompt>
+      
+      <prompt>
+          
+        <!--Loops through each of the saved messages and plays them in turn -->
+        
+        {% if coop_messages_number > 0 %}
+            
+            {% for i in range(coop_messages_number) %}
+        
+                <audio src="/static/messages/{{ coop_messages[i] }}"> {{ i+1 }})</audio>
+    
+            {% endfor %}
+        
+        {% else %}
+        
+            <audio src="/static/audio/no_messages_{{ language_code }}.wav"/>
+        
+        {% endif %}    
+      
+      </prompt>
+    
+    </block>
+  </form>
+
+  <menu id="CoopHearOptions" dtmf="true">    
+
+      <prompt>
+                 <!-- Play audio file that with options to hear again or return to menu -->
+                 <audio src="/static/audio/coop_hear_again_or_options_{{ language_code }}.wav"/>
+      </prompt>
+
+      <choice dtmf="1" next="#CoopHear"> </choice>
+      <choice dtmf="2" next="#CoopRecord"> </choice>
+      <choice dtmf="3" next="#CoopOptions"> </choice>
+      <choice dtmf="9" next="#Options"> </choice>
+
+
+  </menu>
+    
+<!-- End Coop Hear Messages Section -->
+
+
+<!-- Cooperative Record Path -->
+
+<form id="CoopRecord">
+      
+        <block>
+            <prompt>
+                <audio src="/static/audio/coop_record_instructions_{{ language_code }}.wav"></audio>
+            </prompt>
+        </block>
+        
+            <record name="message" beep="true" maxtime="30s"></record>
+        
+        <block>
+            <prompt>
+                <audio src="/static/audio/hear_own_recording_{{ language_code }}.wav"/>
+                <value expr="message"/>
+                <audio src="/static/audio/sell_record_or_keep_message_{{ language_code }}.wav"/>
+            </prompt>
+        </block>
+    
+      <submit next="/voice/recording/coop/{{ language }}" namelist="message" enctype="multipart/form-data" method="post"/>
+</form> 
+
+<!-- End Cooperative Record Section -->
+
+
+</vxml>
+
+

@@ -6,10 +6,10 @@ from os import walk
 from path import path
 from flask import Flask, url_for, request, redirect, render_template
 
+# Change asterisk extensions.conf to to the hosted route. 
 
-# Create Setup section and reuse the variables on all other pages
-# Make for easy setup on a new system
 
+# Change to actual directory
 UPLOAD_FOLDER = '/home/ubuntu/workspace/flask_init/static/messages'
 ALLOWED_EXTENSIONS = set(['wav'])
 
@@ -54,7 +54,7 @@ def get_messages(language):
     coop_messages = [f for f in language_files if "coop" in f]
     message_files_number = len(language_files)
     coop_messages_number = len(coop_messages)
-    return render_template("options_menu.vxml", message_files_number = message_files_number,
+    return render_template("new_options_menu.vxml", message_files_number = message_files_number,
                         message_files = language_files, language = language_send, 
                         language_code = language_code, coop_messages = coop_messages,
                         coop_messages_number = coop_messages_number)

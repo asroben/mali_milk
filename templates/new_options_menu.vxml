@@ -87,8 +87,9 @@
             </prompt>
         </block>
 
+       <block> 
       <submit next="/voice/recording/{{ language }}" namelist="message" enctype="multipart/form-data" method="post"/>
-
+     </block>
 </form> 
 
 

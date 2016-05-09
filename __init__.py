@@ -10,10 +10,10 @@ from flask import Flask, url_for, request, redirect, render_template
 
 
 # Change to actual directory
-UPLOAD_FOLDER = '/home/ubuntu/workspace/flask_init/static/messages'
+UPLOAD_FOLDER = '/home/kasadaka/KasaDaka/FlaskKasadaka/FlaskKasadaka/static/messages'
 ALLOWED_EXTENSIONS = set(['wav'])
 
-messages_dir = '/home/ubuntu/workspace/flask_init/static/messages'
+messages_dir = '/home/kasadaka/KasaDaka/FlaskKasadaka/FlaskKasadaka/static/messages'
 
 # Create an instance of the Flask Class
 app = Flask(__name__)
@@ -24,8 +24,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/voice')
-@app.route('/home')
+@app.route('/')
+#@app.route('/home')
 def index():
     #Change the DAYS based on farmer feedback
     DAYS = 5

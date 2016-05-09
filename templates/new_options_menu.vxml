@@ -71,25 +71,15 @@
 
 <form id="Sell">
       
-        <block>
-            <prompt>
-                <audio src="/static/audio/sell_record_message_instructions_{{ language_code }}.wav"></audio>
-            </prompt>
-        </block>
+	<record name="record" dtmfterm="false" maxtime="120s" type="audio/x-wav" beep="true">
+      		<prompt bargein="false">
+         		<audio src="/static/audio/sell_record_message_instructions_{{ language_code }}.wav"/>
+      		</prompt>
+    	</record>
+    <block>
+	<submit namelist="record" method="post" enctype="multipart/form-data" next="/voice/recording/{{ language }}" />
+    </block>
         
-            <record name="message" beep="true" maxtime="30s"></record>
-        
-        <block>
-            <prompt>
-                <audio src="/static/audio/hear_own_recording_{{ language_code }}.wav"/>
-                <value expr="message"/>
-                <audio src="/static/audio/sell_record_or_keep_message_{{ language_code }}.wav"/>
-            </prompt>
-        </block>
-
-       <block> 
-      <submit next="/voice/recording/{{ language }}" namelist="message" enctype="multipart/form-data" method="post"/>
-     </block>
 </form> 
 
 

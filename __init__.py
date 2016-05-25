@@ -24,8 +24,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/')
-#@app.route('/home')
+
+@app.route('/voice')
 def index():
     #Change the DAYS based on farmer feedback
     DAYS = 5
@@ -44,6 +44,7 @@ def index():
                 removed += 1
     print(removed)
     return render_template("main.vxml")
+
 
 @app.route('/voice/<language>')
 def get_messages(language):
@@ -87,8 +88,8 @@ def upload_coop_file(language):
 
 
 # Section for viewing and playing all audio files 
-@app.route('/overview')
-def index():
+@app.route('/')
+def overview():
     music_files = [f for f in os.listdir(messages_dir) if f.endswith('wav')]
     music_files_number = len(music_files)
     return render_template("index.html",

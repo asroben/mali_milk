@@ -71,16 +71,19 @@
 
 <form id="Sell">
       
-	<record name="record" dtmfterm="false" maxtime="120s" type="audio/x-wav" beep="true">
+	<record name="record" dtmfterm="true" maxtime="30s" beep="true">
       		<prompt bargein="false">
          		<audio src="/static/audio/sell_record_message_instructions_{{ language_code }}.wav"/>
       		</prompt>
     	</record>
-    <block>
-	<submit namelist="record" method="post" enctype="multipart/form-data" next="/voice/recording/{{ language }}" />
-    </block>
+    
+	<block>
+	<submit namelist="record" method="post" next="/voice/recording/{{ language }}" />
+	</block>
         
 </form> 
+
+
 
 
 <!-- Co-Operative Main Menu -->

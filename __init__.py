@@ -63,6 +63,7 @@ def get_messages(language):
 # Receive recordings, save them with appropriate name, and render xml
 @app.route('/voice/recording/<language>', methods=['GET', 'POST'])
 def upload_file(language):
+    print request.form
     language_send = str(language)
     language_code = language_send[0:2]
     if request.method == 'POST':

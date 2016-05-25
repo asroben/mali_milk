@@ -86,6 +86,23 @@ def upload_coop_file(language):
     return render_template('not_recorded.vxml', language_code = language_code)
 
 
+# Section for viewing and playing all audio files 
+@app.route('/overview')
+def index():
+    music_files = [f for f in os.listdir(messages_dir) if f.endswith('wav')]
+    music_files_number = len(music_files)
+    return render_template("index.html",
+                        title = 'Home',
+                        music_files_number = music_files_number,
+                        music_files = music_files)
+
+@app.route('/<filename>')
+def song(filename):
+    return render_template('play.html',
+                        title = filename,
+                        music_file = filename)
+
+
 
 
 # if run from the terminal, define cloud9 host and port

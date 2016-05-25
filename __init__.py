@@ -1,5 +1,8 @@
 import os, datetime, time
 import path
+import shutil
+import re
+import subprocess
 
 from os import walk
 
@@ -63,9 +66,22 @@ def get_messages(language):
 # Receive recordings, save them with appropriate name, and render xml
 @app.route('/voice/recording/<language>', methods=['GET', 'POST'])
 def upload_file(language):
-    print request.form
+    #print request.form
+    file_path = request.form['record']
+    saveRecording(file_path)
+    # print(file_path)
+    #file_path_correct = '"' + file_path +'"'
+    file_path_correct = str(file_path)
     language_send = str(language)
     language_code = language_send[0:2]
+    #print(language_send, language_code)
+    print(file_path_correct)
+    print(len(file_path_correct))
+    print(type(file_path_correct))
+    short_path = file_path_correct[25:]
+    print(short_path)
+    shutil.move(short_path, messages_dir)
+
     if request.method == 'POST':
         file = request.files['message']
         if file and allowed_file(file.filename):
@@ -103,6 +119,29 @@ def song(filename):
     return render_template('play.html',
                         title = filename,
                         music_file = filename)
+
+def saveRecording(path):
+    #remove file:// if present
+    #a lot of %00 stuff to remove
+    path =  path.replace("\00","")
+    path = re.sub(r"(file:\/\/)?(.*)",r"\2",path)
+    #dest = findFreshFilePath(messages_dir+ "recording.wav")
+    dest = messages_dir
+    print(path)
+    print(dest)
+    #convert to format that is good for vxml as well as web interface
+    #subprocess.call(['/usr/bin/sox',path,'-r','8k','-c','1','-e','signed-integer',dest])
+    shutil.copy(path,dest)
+    return dest
+
+def findFreshFilePath(preferredPath):
+    addition = 1
+    path = re.sub(r"(.*\/)(\w*)(\.\w{3})",r"\1\2" + "_" + str(addition) + r"\3",preferredPath)
+    while os.path.isfile(path):
+        addition = addition + 1
+        path = re.sub(r"(.*\/)(\w*)(\.\w{3})",r"\1\2" + "_" + str(addition) + r"\3",preferredPath)
+    return path
+
 
 
 
